@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" type="image/x-icon" href="./img/icon.png" />
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <script src="./js/jquery-3.4.1.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="./js/decision-tree-min.js"></script>
+    <script type="text/javascript" src="./js/ml.min.js"></script>
+    <title>Data mining - Cây quyết định</title>
+    <style>
+        body {
+            background-image: url('./img/Wallpaper.jpg');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: 100% 100%;
+        }
+    </style>
+</head>
+<body style="font-family: serif;font-weight: bold;"><center>
+    <div class="container-fluid">    
+        <h1 class="text-success mt-5">PHẦN MỀM DỰ ĐOÁN TÊN ĐỘNG VẬT</br>THEO ĐẶC ĐIỂM CHO TRƯỚC</h1>
+
+        <div id="chon_file">
+            <h4 class="mt-3">Chọn tập huấn luyện:</h4>
+            <input type="file" id="file-input" accept="text/plain" class="btn btn-primary"/>
+        </div>       
+
+        <form id="f_du_doan" class="p-3" style="background-color: white;">
+            <legend class="text-center text-info">Vui lòng chọn đặc điểm con vật rồi bấm nút "dự đoán" bên dưới</legend>
+            <div class="row" id="div_du_doan">
+
+            </div>
+            <button type="button" id="btn_du_doan" class="btn btn-primary text-center">Dự đoán</button>
+        </form>
+
+        <script type="text/javascript">
+            var data = [];
+            var attr_name = [];
+            var index_name = 'name';
+        </script>
+
+        <script src="./js/xu_ly.js"></script>
+
+        <script>
+            var data = [];
+            $(document).ready(function () {
+                $("#f_du_doan").hide();
+
+                $("#btn_du_doan").click(function (e) { 
+                    e.preventDefault();
+                    
+                    var dataset = data;
+                    var predictions = attr_name;
+                    var option = {k: 1};
+                    
+                    var knn = new ML.KNN(dataset, predictions,option);
+
+                    // console.log(dataset);
+                    
+                    // console.log(predictions);
+                    
+
+                    var test = [0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 5, 0, 0, 0, 7];
+
+                    
+
+                    // var dataset = [[0, 0, 0], [2, 2, 2]];
+
+                    var ans = knn.predict(test);
+
+                    console.log(ans);
+                    
+                    
+                });
+            });
+        </script>
+    </div>
+</center></body>
+</html>
