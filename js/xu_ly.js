@@ -60,6 +60,7 @@ function gen_data_array(raw_data) {
 
     for (let i = 2; i < raw_data.length; i++) {
         var line = raw_data[i].split('\t');
+        line.splice(-1,1);
         var name = line.splice(0,1)[0];
         attr_name.push(name);
         D.push(line);
@@ -72,19 +73,20 @@ function gen_data_array(raw_data) {
 
 function gen_data_select(raw_data) {
 
+    var attr_list = raw_data[0].split("\t"); 
     var title = raw_data[1].split("\t");    
 
     for (let index = 0; index < title.length-1; index++) {
         const element = title[index];
-        if (attr_name[index] == 'name') {
+        if (attr_list[index] == 'name') {
             continue;
         }
 
-        if (attr_name[index] == 'legs') {
+        if (attr_list[index] == 'legs') {
             $("#div_du_doan").append('\
                 <div class="form-group col-sm-3 text-left">\
                     <label>'+element+'</label>\
-                    <select class="form-control" name="sl_'+index+'" id="sl_'+index+'">\
+                    <select class="form-control" name="sl_'+(index-1)+'" id="sl_'+(index-1)+'">\
                         <option value="0">0</option>\
                         <option value="2">2</option>\
                         <option value="4" selected>4</option>\
@@ -97,11 +99,11 @@ function gen_data_select(raw_data) {
             continue;
         }
 
-        if (attr_name[index] == 'class') {
+        if (attr_list[index] == 'class') {
             $("#div_du_doan").append('\
                 <div class="form-group col-sm-3 text-left">\
                     <label>'+element+'</label>\
-                    <select class="form-control" name="sl_'+index+'" id="sl_'+index+'">\
+                    <select class="form-control" name="sl_'+(index-1)+'" id="sl_'+(index-1)+'">\
                         <option value="1" selected>Động vật có vú</option>\
                         <option value="2">Chim</option>\
                         <option value="3">Bò sát</option>\
@@ -118,7 +120,7 @@ function gen_data_select(raw_data) {
         $("#div_du_doan").append('\
             <div class="form-group col-sm-3 text-left">\
                 <label>'+element+'</label>\
-                <select class="form-control" name="sl_'+index+'" id="sl_'+index+'">\
+                <select class="form-control" name="sl_'+(index-1)+'" id="sl_'+(index-1)+'">\
                     <option value="1" selected>Đúng</option>\
                     <option value="0">Sai</option>\
                 </select>\
@@ -146,8 +148,29 @@ function DTree(train, index_att) {
             }
         }
         
-
         var decisionTreePrediction = decisionTree.predict(test);
-        alert("Con vật này là: " + decisionTreePrediction);
-        
+        alert("Con vật này là: " + decisionTreePrediction); 
+}
+
+function DuDoan_KNN(k=1) {
+
+    var dataset = data;
+    var predictions = attr_name;
+    var option = {k: k};
+    var knn = new ML.KNN(dataset, predictions,option);
+
+    var test = [];
+    for (let i = 0; i < data[0].length; i++) {
+        e = $("#sl_" + i).val();
+        test.push(e);
+    }
+
+    console.log(test[0]);
+    console.log(typeof test[0] == 'number');
+
+    T = [0,0,1,0,0,1,1,0,0,0,0,0,5,0,0,0,7];
+
+    var ans = knn.predict(T);
+
+    console.log(ans);
 }

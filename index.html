@@ -52,29 +52,7 @@
 
                 $("#btn_du_doan").click(function (e) { 
                     e.preventDefault();
-                    
-                    var dataset = data;
-                    var predictions = attr_name;
-                    var option = {k: 1};
-                    
-                    var knn = new ML.KNN(dataset, predictions,option);
-
-                    // console.log(dataset);
-                    
-                    // console.log(predictions);
-                    
-
-                    var test = [0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 5, 0, 0, 0, 7];
-
-                    
-
-                    // var dataset = [[0, 0, 0], [2, 2, 2]];
-
-                    var ans = knn.predict(test);
-
-                    console.log(ans);
-                    
-                    
+                    DuDoan_KNN();
                 });
             });
         </script>
